@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+
+Do NOT write migrations by hand unless necessary. Phoenix does it for you.

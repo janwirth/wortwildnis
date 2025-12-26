@@ -1,0 +1,146 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../../deps/ash_authentication_phoenix";
+@source "../css";
+@source "../js";
+@source "../../lib/wortwildnis_web";
+
+/* Import Gambetta font */
+@import "./gambetta.css";
+@import "./satoshi.css";
+
+/* Configure Tailwind font sizes to use fluent type scale */
+@theme {
+  --font-size-xs: var(--step--2);
+  --font-size-sm: var(--step--1);
+  --font-size-base: var(--step-0);
+  --font-size-lg: var(--step-1);
+  --font-size-xl: var(--step-2);
+  --font-size-2xl: var(--step-3);
+  --font-size-3xl: var(--step-4);
+  --font-size-4xl: var(--step-5);
+}
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Then restart the server.
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(0.216 0.006 56.043);
+  --color-base-200: oklch(0.268 0.007 34.298);
+  --color-base-300: oklch(0.374 0.01 67.558);
+  --color-base-content: oklch(0.985 0.001 106.423);
+  --color-primary: oklch(0.553 0.013 58.071);
+  --color-primary-content: oklch(0.985 0.001 106.423);
+  --color-secondary: oklch(0.444 0.011 73.639);
+  --color-secondary-content: oklch(0.985 0.001 106.423);
+  --color-accent: oklch(0.709 0.01 56.259);
+  --color-accent-content: oklch(0.216 0.006 56.043);
+  --color-neutral: oklch(0.444 0.011 73.639);
+  --color-neutral-content: oklch(0.985 0.001 106.423);
+  --color-info: oklch(0.553 0.013 58.071);
+  --color-info-content: oklch(0.985 0.001 106.423);
+  --color-success: oklch(0.553 0.013 58.071);
+  --color-success-content: oklch(0.985 0.001 106.423);
+  --color-warning: oklch(0.709 0.01 56.259);
+  --color-warning-content: oklch(0.216 0.006 56.043);
+  --color-error: oklch(0.444 0.011 73.639);
+  --color-error-content: oklch(0.985 0.001 106.423);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(0.985 0.001 106.423);
+  --color-base-200: oklch(0.97 0.001 106.424);
+  --color-base-300: oklch(0.923 0.003 48.717);
+  --color-base-content: oklch(0.216 0.006 56.043);
+  --color-primary: oklch(0.553 0.013 58.071);
+  --color-primary-content: oklch(0.985 0.001 106.423);
+  --color-secondary: oklch(0.444 0.011 73.639);
+  --color-secondary-content: oklch(0.985 0.001 106.423);
+  --color-accent: oklch(0.374 0.01 67.558);
+  --color-accent-content: oklch(0.985 0.001 106.423);
+  --color-neutral: oklch(0.709 0.01 56.259);
+  --color-neutral-content: oklch(0.216 0.006 56.043);
+  --color-info: oklch(0.553 0.013 58.071);
+  --color-info-content: oklch(0.985 0.001 106.423);
+  --color-success: oklch(0.553 0.013 58.071);
+  --color-success-content: oklch(0.985 0.001 106.423);
+  --color-warning: oklch(0.709 0.01 56.259);
+  --color-warning-content: oklch(0.216 0.006 56.043);
+  --color-error: oklch(0.444 0.011 73.639);
+  --color-error-content: oklch(0.985 0.001 106.423);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session],
+[data-phx-teleported-src] {
+  display: contents;
+}
+
+/* Set Gambetta as the default font family */
+:root {
+  font-family: "Satoshi-Variable", "Satoshi-Regular", sans-serif;
+
+  /* Fluent type scale */
+  /* @link https://utopia.fyi/type/calculator?c=360,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+  --step--2: clamp(0.7813rem, 0.7736rem + 0.0341vw, 0.8rem);
+  --step--1: clamp(0.9375rem, 0.9119rem + 0.1136vw, 1rem);
+  --step-0: clamp(1.125rem, 1.0739rem + 0.2273vw, 1.25rem);
+  --step-1: clamp(1.35rem, 1.2631rem + 0.3864vw, 1.5625rem);
+  --step-2: clamp(1.62rem, 1.4837rem + 0.6057vw, 1.9531rem);
+  --step-3: clamp(1.944rem, 1.7405rem + 0.9044vw, 2.4414rem);
+  --step-4: clamp(2.3328rem, 2.0387rem + 1.3072vw, 3.0518rem);
+  --step-5: clamp(2.7994rem, 2.384rem + 1.8461vw, 3.8147rem);
+}
+
+body {
+  font-family: "Satoshi-Variable", "Satoshi-Regular", sans-serif;
+}
+
+/* This file is for your main application CSS */

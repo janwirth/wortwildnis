@@ -1,0 +1,20 @@
+{
+  "name": "wortwildnis",
+  "version": "1.0.0",
+  "description": "OG Image generation dependencies",
+  "scripts": {
+    "install": "npm install"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
+
+
+
+
+

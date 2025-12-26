@@ -1,0 +1,148 @@
+/**
+* @license
+*
+* Font Family: Gambetta
+* Designed by: Paul Troppmar
+* URL: https://www.fontshare.com/fonts/gambetta
+* © 2025 Indian Type Foundry
+*
+* Gambetta Light 
+* Gambetta LightItalic 
+* Gambetta Regular 
+* Gambetta Italic 
+* Gambetta Medium 
+* Gambetta MediumItalic 
+* Gambetta Semibold 
+* Gambetta SemiboldItalic 
+* Gambetta Bold 
+* Gambetta BoldItalic 
+* Gambetta Variable (Variable font)
+* Gambetta VariableItalic (Variable font)
+
+*
+*/
+@font-face {
+  font-family: 'Gambetta-Light';
+  src: url('../fonts/Gambetta-Light.woff2') format('woff2'),
+       url('../fonts/Gambetta-Light.woff') format('woff'),
+       url('../fonts/Gambetta-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gambetta-LightItalic';
+  src: url('../fonts/Gambetta-LightItalic.woff2') format('woff2'),
+       url('../fonts/Gambetta-LightItalic.woff') format('woff'),
+       url('../fonts/Gambetta-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Gambetta-Regular';
+  src: url('../fonts/Gambetta-Regular.woff2') format('woff2'),
+       url('../fonts/Gambetta-Regular.woff') format('woff'),
+       url('../fonts/Gambetta-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gambetta-Italic';
+  src: url('../fonts/Gambetta-Italic.woff2') format('woff2'),
+       url('../fonts/Gambetta-Italic.woff') format('woff'),
+       url('../fonts/Gambetta-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Gambetta-Medium';
+  src: url('../fonts/Gambetta-Medium.woff2') format('woff2'),
+       url('../fonts/Gambetta-Medium.woff') format('woff'),
+       url('../fonts/Gambetta-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gambetta-MediumItalic';
+  src: url('../fonts/Gambetta-MediumItalic.woff2') format('woff2'),
+       url('../fonts/Gambetta-MediumItalic.woff') format('woff'),
+       url('../fonts/Gambetta-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Gambetta-Semibold';
+  src: url('../fonts/Gambetta-Semibold.woff2') format('woff2'),
+       url('../fonts/Gambetta-Semibold.woff') format('woff'),
+       url('../fonts/Gambetta-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gambetta-SemiboldItalic';
+  src: url('../fonts/Gambetta-SemiboldItalic.woff2') format('woff2'),
+       url('../fonts/Gambetta-SemiboldItalic.woff') format('woff'),
+       url('../fonts/Gambetta-SemiboldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Gambetta-Bold';
+  src: url('../fonts/Gambetta-Bold.woff2') format('woff2'),
+       url('../fonts/Gambetta-Bold.woff') format('woff'),
+       url('../fonts/Gambetta-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gambetta-BoldItalic';
+  src: url('../fonts/Gambetta-BoldItalic.woff2') format('woff2'),
+       url('../fonts/Gambetta-BoldItalic.woff') format('woff'),
+       url('../fonts/Gambetta-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: italic;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 300.0wght 700.0;
+*
+* available axes:
+'wght' (range from 300.0 to 700.0'wght' (range from 300.0 to 700.0
+*/
+@font-face {
+  font-family: 'Gambetta-Variable';
+  src: url('../fonts/Gambetta-Variable.woff2') format('woff2'),
+       url('../fonts/Gambetta-Variable.woff') format('woff'),
+       url('../fonts/Gambetta-Variable.ttf') format('truetype');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 300.0wght 700.0;
+*
+* available axes:
+'wght' (range from 300.0 to 700.0'wght' (range from 300.0 to 700.0
+*/
+@font-face {
+  font-family: 'Gambetta-VariableItalic';
+  src: url('../fonts/Gambetta-VariableItalic.woff2') format('woff2'),
+       url('../fonts/Gambetta-VariableItalic.woff') format('woff'),
+       url('../fonts/Gambetta-VariableItalic.ttf') format('truetype');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: italic;
+}
+

@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: 2022 Alembic Pty Ltd
+#
+# SPDX-License-Identifier: MIT
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Already have an account?"
+msgstr "Hast du bereits ein Konto?"
+
+msgid "Email or password was incorrect"
+msgstr "E-Mail oder Passwort war falsch"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Forgot your password?"
+msgstr "Passwort vergessen?"
+
+msgid "If this user exists in our database you will contacted with a sign-in link shortly."
+msgstr "Wenn dieser Benutzer in unserer Datenbank existiert, wirst du in Kürze mit einem Anmeldelink kontaktiert."
+
+msgid "If this user exists in our system, you will be contacted with reset instructions shortly."
+msgstr "Wenn dieser Benutzer in unserem System existiert, wirst du in Kürze mit Anweisungen zur Zurücksetzung kontaktiert."
+
+msgid "Need an account?"
+msgstr "Noch kein Konto?"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Password Confirmation"
+msgstr "Passwort bestätigen"
+
+msgid "Request magic link"
+msgstr "Magischen Link anfordern"
+
+msgid "Request password reset token"
+msgstr "Token zur Passwortzurücksetzung anfordern"
+
+msgid "Requesting ..."
+msgstr "Wird angefordert..."
+
+msgid "Reset password with token"
+msgstr "Passwort mit Token zurücksetzen"
+
+msgid "Sign in"
+msgstr "Anmelden"
+
+msgid "Signing in ..."
+msgstr "Wird angemeldet..."
+
+msgid "Your password has successfully been reset"
+msgstr "Dein Passwort wurde erfolgreich zurückgesetzt"
+
+msgid "Register"
+msgstr "Registrieren"
+
+msgid "Username"
+msgstr "Nutzername"
+
+msgid "Remember me"
+msgstr "Angemeldet bleiben"
+
+msgid "You are now signed in"
+msgstr "Eingeloggt"
+
+msgid "You are now signed out"
+msgstr "Erfolgreich abgemeldet"
+
+msgid "Your email address has now been confirmed"
+msgstr "Deine E-Mail-Adresse wurde bestätigt"

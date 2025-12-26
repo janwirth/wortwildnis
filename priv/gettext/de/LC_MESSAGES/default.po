@@ -1,0 +1,58 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/wortwildnis_web/components/core_components.ex:366
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr ""
+
+#: lib/wortwildnis_web/components/layouts.ex:142
+#: lib/wortwildnis_web/components/layouts.ex:154
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr ""
+
+#: lib/wortwildnis_web/components/layouts.ex:149
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr ""
+
+#: lib/wortwildnis_web/components/layouts.ex:137
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr ""
+
+#: lib/wortwildnis_web/controllers/auth_controller.ex:12
+#, elixir-autogen, elixir-format
+msgid "You are now signed in"
+msgstr ""
+
+#: lib/wortwildnis_web/controllers/auth_controller.ex:52
+#, elixir-autogen, elixir-format
+msgid "You are now signed out"
+msgstr ""
+
+#: lib/wortwildnis_web/controllers/auth_controller.ex:10
+#, elixir-autogen, elixir-format
+msgid "Your email address has now been confirmed"
+msgstr ""
+
+#: lib/wortwildnis_web/controllers/auth_controller.ex:11
+#, elixir-autogen, elixir-format
+msgid "Your password has successfully been reset"
+msgstr ""
+
+#: lib/wortwildnis_web/components/core_components.ex:74
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr ""

@@ -1,0 +1,60 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Already have an account?"
+msgstr ""
+
+msgid "Email or password was incorrect"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "If this user exists in our database you will contacted with a sign-in link shortly."
+msgstr ""
+
+msgid "If this user exists in our system, you will be contacted with reset instructions shortly."
+msgstr ""
+
+msgid "Need an account?"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password Confirmation"
+msgstr ""
+
+msgid "Request magic link"
+msgstr ""
+
+msgid "Request password reset token"
+msgstr ""
+
+msgid "Requesting ..."
+msgstr ""
+
+msgid "Reset password with token"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Signing in ..."
+msgstr ""
+
+msgid "Your password has successfully been reset"
+msgstr ""
