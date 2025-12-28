@@ -128,7 +128,10 @@ defmodule WortwildnisWeb.TermLive.Index do
   defp render_view(assigns, :recent) do
     ~H"""
     <div class="flex flex-col gap-6">
-      <h1 class="text-2xl  font-bold">Wortwildnis - Deutsche Umgangssprache</h1>
+      <h1 class="text-2xl  font-bold opacity-80">Wortwildnis - Deutsche Umgangssprache & Slang</h1>
+      <p class="text-base ">
+        Wortwildnis ist ein urbanes Wörterbuch für moderne Umgangssprache und digitale Begriffe. Von Nutzer:innen gesammelt und verständlich erklärt.
+      </p>
       <.live_component
         module={WortwildnisWeb.TermLive.IndexRefactor.List}
         id="list-term-of-the-day"
