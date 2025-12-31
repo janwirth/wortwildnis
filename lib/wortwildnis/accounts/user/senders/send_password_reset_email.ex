@@ -13,7 +13,7 @@ defmodule Wortwildnis.Accounts.User.Senders.SendPasswordResetEmail do
   @impl true
   def send(user, token, _) do
     new()
-    |> from({"Jan", "info@wortildnis.de"})
+    |> from({"Jan", "info@wortwildnis.de"})
     |> to(to_string(user.email))
     |> subject("Wortwildnis - Passwort zurücksetzen")
     |> html_body(body(token: token))
