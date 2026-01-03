@@ -66,7 +66,7 @@ defmodule WortwildnisWeb.Layouts do
           <div class="flex items-center gap-4">
             <.theme_toggle />
             <.user_info current_user={@current_user} socket={@socket} />
-            {Gettext.get_locale(WortwildnisWeb.Gettext)}
+            <!-- {Gettext.get_locale(WortwildnisWeb.Gettext)} -->
           </div>
         </div>
       </div>
