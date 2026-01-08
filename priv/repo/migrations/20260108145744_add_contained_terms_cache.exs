@@ -11,21 +11,9 @@ defmodule Wortwildnis.Repo.Migrations.AddContainedTermsCache do
     alter table(:terms) do
       add :contained_terms_cache, {:array, :map}
     end
-
-    create index(:terms, [:owner_id])
-
-    create index(:terms, ["lower(name)"], name: "terms_lower_name_index")
-
-    create index(:reactions, [:term_id])
   end
 
   def down do
-    drop_if_exists index(:reactions, [:term_id])
-
-    drop_if_exists index(:terms, ["lower(name)"], name: "terms_lower_name_index")
-
-    drop_if_exists index(:terms, [:owner_id])
-
     alter table(:terms) do
       remove :contained_terms_cache
     end
