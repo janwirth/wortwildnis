@@ -236,7 +236,7 @@ defmodule WortwildnisWeb.Layouts do
   def theme_toggle(assigns) do
     ~H"""
     <div class="card relative flex flex-row items-center rounded-full">
-      <div class="absolute w-1/3 h-full rounded-full bg-black dark:bg-white left-0 [[data-theme=system]_&]:left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
+      <div class="absolute w-1/3 h-full rounded-full bg-black dark:bg-white left-0 [[data-phx-theme=system]_&]:left-0 [[data-phx-theme=light]_&]:left-1/3 [[data-phx-theme=dark]_&]:left-2/3 transition-[left]" />
 
       <button
         class="flex p-2 cursor-pointer w-1/3 relative z-10"
@@ -248,7 +248,7 @@ defmodule WortwildnisWeb.Layouts do
           class={[
             "size-4 opacity-75 hover:opacity-100",
             "text-black dark:text-white",
-            "[[data-theme=system]_&]:text-white [[data-theme=system]_&]:dark:text-black"
+            "[[data-phx-theme=system]_&]:text-white [[data-phx-theme=system]_&]:dark:text-black"
           ]}
         />
       </button>
@@ -263,7 +263,7 @@ defmodule WortwildnisWeb.Layouts do
           class={[
             "size-4 opacity-75 hover:opacity-100",
             "text-black dark:text-white",
-            "[[data-theme=light]_&]:text-white"
+            "[[data-phx-theme=light]_&]:text-white"
           ]}
         />
       </button>
@@ -278,7 +278,7 @@ defmodule WortwildnisWeb.Layouts do
           class={[
             "size-4 opacity-75 hover:opacity-100",
             "text-black dark:text-white",
-            "[[data-theme=dark]_&]:text-black"
+            "[[data-phx-theme=dark]_&]:text-black"
           ]}
         />
       </button>
