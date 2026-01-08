@@ -11,22 +11,25 @@ defmodule WortwildnisWeb.ViewTerm do
   attr :flash, :map, required: true
 
   def render(assigns) do
-    # Load contained_terms lazily if not already loaded
-    term =
-      case assigns.term.contained_terms do
-        %Ash.NotLoaded{} ->
-          # Load contained_terms on-demand for this single term
-          Ash.load!(assigns.term, [:contained_terms], actor: assigns.current_user)
+    term = assigns.term
+
+    # Use cached contained_terms data (JSON) instead of loading from DB
+    # This avoids N+1 queries and speeds up LCP significantly
+    contained_terms =
+      case term.contained_terms_cache do
+        cache when is_list(cache) and cache != [] ->
+          # Convert cached maps to structs expected by DescriptionSegmenter
+          Enum.map(cache, fn item ->
+            %{id: item["id"], name: item["name"]}
+          end)
 
         _ ->
-          assigns.term
-      end
-
-    contained_terms =
-      case term.contained_terms do
-        %Ash.NotLoaded{} -> []
-        terms when is_list(terms) -> terms
-        _ -> []
+          # Fallback: check if contained_terms relationship is already loaded
+          case term.contained_terms do
+            %Ash.NotLoaded{} -> []
+            terms when is_list(terms) -> terms
+            _ -> []
+          end
       end
 
     description_segments =
@@ -93,7 +96,7 @@ defmodule WortwildnisWeb.ViewTerm do
           <%= render_segments(@description_segments) %>
         </p>
         <!-- Colocated hook, on-demand loading of contained terms -->
-        <%= if length(@term.contained_terms) == 0 do %>
+        <%= if is_nil(@term.contained_terms_cache) do %>
           <script :type={Phoenix.LiveView.ColocatedHook} name=".EnqueueFindContainedTermsForAll">
             export default {
               mounted() {

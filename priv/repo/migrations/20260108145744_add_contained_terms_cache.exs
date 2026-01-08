@@ -1,4 +1,4 @@
-defmodule Wortwildnis.Repo.Migrations.MigrateResources1 do
+defmodule Wortwildnis.Repo.Migrations.AddContainedTermsCache do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -8,6 +8,10 @@ defmodule Wortwildnis.Repo.Migrations.MigrateResources1 do
   use Ecto.Migration
 
   def up do
+    alter table(:terms) do
+      add :contained_terms_cache, {:array, :map}
+    end
+
     create index(:terms, [:owner_id])
 
     create index(:terms, ["lower(name)"], name: "terms_lower_name_index")
@@ -21,5 +25,9 @@ defmodule Wortwildnis.Repo.Migrations.MigrateResources1 do
     drop_if_exists index(:terms, ["lower(name)"], name: "terms_lower_name_index")
 
     drop_if_exists index(:terms, [:owner_id])
+
+    alter table(:terms) do
+      remove :contained_terms_cache
+    end
   end
 end

@@ -249,7 +249,7 @@ defmodule Wortwildnis.Dictionary.Term do
         # Find all terms whose name appears in the current term's description
         # Check if name appears in description: description ILIKE '%' || name || '%'
         # We need to use Ecto query directly for this complex ILIKE pattern
-        contained_term_ids =
+        contained_terms_data =
           Wortwildnis.Repo.all(
             from t in Wortwildnis.Dictionary.Term,
               where:
@@ -262,13 +262,18 @@ defmodule Wortwildnis.Dictionary.Term do
               select: %{id: t.id, name: t.name}
           )
           |> filter_longest_subterms()
-          |> Enum.map(& &1.id)
 
-        IO.inspect(contained_term_ids)
-        IO.inspect(tokens)
+        contained_term_ids = Enum.map(contained_terms_data, & &1.id)
 
-        # Use Ash to manage the relationships - just pass IDs to avoid triggering cascading actions
+        # Build cache as list of maps with string keys for JSON serialization
+        contained_terms_cache =
+          Enum.map(contained_terms_data, fn %{id: id, name: name} ->
+            %{"id" => to_string(id), "name" => name}
+          end)
+
+        # Use Ash to manage the relationships and cache the data as JSON
         changeset
+        |> Ash.Changeset.change_attribute(:contained_terms_cache, contained_terms_cache)
         |> Ash.Changeset.manage_relationship(:contained_terms, contained_term_ids,
           type: :append_and_remove
         )
@@ -361,6 +366,13 @@ defmodule Wortwildnis.Dictionary.Term do
 
     attribute :term_of_the_day, :date do
       allow_nil? true
+    end
+
+    # Cached JSON array of contained term data [{id, name}, ...] for fast rendering
+    # Invalidated/updated when find_contained_terms runs
+    attribute :contained_terms_cache, {:array, :map} do
+      allow_nil? true
+      default nil
     end
 
     create_timestamp :created_at

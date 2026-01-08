@@ -97,6 +97,21 @@
       "type": "date"
     },
     {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "contained_terms_cache",
+      "type": [
+        "array",
+        "map"
+      ]
+    },
+    {
       "allow_nil?": false,
       "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
       "generated?": false,
@@ -200,7 +215,7 @@
   ],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "2C6BB7F6E801DA2922F567DFAFB4779FC29C3C0CF25EC54D7077CEC49AC59F23",
+  "hash": "7900FC83BF6756E4BD72A92B13A259FFA4FC0930205771D54692485FE8E11273",
   "identities": [
     {
       "all_tenants?": false,
