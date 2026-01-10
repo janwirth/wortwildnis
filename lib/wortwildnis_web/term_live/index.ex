@@ -13,11 +13,6 @@ defmodule WortwildnisWeb.TermLive.Index do
       search_input_value={assigns[:search_input_value]}
     >
       <div class="space-y-4">
-        <!--
-
-      {inspect(assigns.mode)}
-      -->
-
         {render_view(assigns, @mode)}
       </div>
     </Layouts.app>
@@ -183,7 +178,6 @@ defmodule WortwildnisWeb.TermLive.Index do
   end
 
   defp determine_mode(params, socket) do
-    IO.puts("Determining mode: #{inspect(params)} #{inspect(socket.assigns.live_action)}")
 
     cond do
       socket.assigns.live_action == :profile ->
@@ -258,11 +252,11 @@ defmodule WortwildnisWeb.TermLive.Index do
           }
 
         {:search, query} ->
-          {results, _total_count} =
+          results =
             Wortwildnis.Dictionary.Term
             |> Ash.Query.for_read(:search, q: query)
             |> Ash.Query.limit(1)
-            |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(nil, 1)
+            |> WortwildnisWeb.LiveView.TermHelpers.read_terms(nil)
 
           case results do
             [first_hit] ->
@@ -476,7 +470,8 @@ defmodule WortwildnisWeb.TermLive.Index do
     visible_list_ids = get_visible_list_ids(socket.assigns.mode)
 
     Enum.each(visible_list_ids, fn list_id ->
-      send_update(WortwildnisWeb.TermLive.IndexRefactor.List,
+      send_update(
+        WortwildnisWeb.TermLive.IndexRefactor.List,
         [{:id, list_id}, {action, term}]
       )
     end)

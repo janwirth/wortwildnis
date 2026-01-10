@@ -38,5 +38,3 @@ defmodule WortwildnisWeb.ImageHTML do
     """
   end
 end
-
-

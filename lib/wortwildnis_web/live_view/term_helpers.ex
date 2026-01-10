@@ -126,7 +126,7 @@ defmodule WortwildnisWeb.LiveView.TermHelpers do
   Load it lazily in the component when needed.
   """
   def standard_term_loads do
-    [:is_owner, :reactions, :owner]
+    [:is_owner, :reactions, :owner, :contained_terms_cache]
   end
 
   @doc """
@@ -137,5 +137,59 @@ defmodule WortwildnisWeb.LiveView.TermHelpers do
       actor: actor,
       load: standard_term_loads()
     )
+  end
+
+  @doc """
+  Reads terms with standard loads and a limit of 10.
+  """
+  @spec read_terms(atom() | Ash.Query.t(), any()) ::
+          [struct()]
+          | %{
+              :__struct__ => Ash.Page.Keyset | Ash.Page.Offset,
+              :count => integer(),
+              :limit => integer(),
+              :more? => boolean(),
+              :rerun => {Ash.Query.t(), [{any(), any()}]},
+              :results => [struct()],
+              optional(:after) => nil | binary(),
+              optional(:before) => nil | binary(),
+              optional(:offset) => integer()
+            }
+  def read_terms(query, current_user) do
+    query
+    |> Ash.Query.limit(10)
+    |> Ash.Query.load(standard_term_loads())
+    |> Ash.read!(actor: current_user)
+  end
+
+  @doc """
+  Reads terms with pagination and returns the total count.
+  Uses efficient COUNT(*) query for counting.
+  """
+  def read_terms_with_count_and_enqueue_find_contained_terms_if_needed(query, current_user, page \\ 1) do
+    offset = (page - 1) * 10
+
+    terms =
+      query
+      |> Ash.Query.limit(10)
+      |> Ash.Query.offset(offset)
+      |> Ash.Query.load(standard_term_loads())
+      |> Ash.read!(actor: current_user)
+
+    # Get total count efficiently - just count, don't load
+    total_count =
+      query
+      |> Ash.count!(actor: current_user)
+
+    # enqueue find contained terms for all terms if cache empty
+    Enum.each(terms, fn term ->
+      if is_nil(term.contained_terms_cache) do
+        IO.puts("Enqueueing find contained terms for term #{term.id}")
+        Ash.update!(term, action: :enqueue_find_contained_terms)
+      end
+    end)
+
+
+    {terms, total_count}
   end
 end

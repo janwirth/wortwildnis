@@ -53,6 +53,7 @@ defmodule WortwildnisWeb.ViewTerm do
       |> assign(:expanded_translation_en, assigns[:expanded_translation_en] || false)
       |> assign(:expanded_translation_es, assigns[:expanded_translation_es] || false)
       |> assign(:translating, translating)
+      |> assign(:contained_terms, contained_terms)
 
     assigns = assign(assigns, :should_blur, should_blur_content?(assigns))
 
@@ -80,33 +81,20 @@ defmodule WortwildnisWeb.ViewTerm do
         <!-- 1. headline -->
         <.link
           navigate={~p"/definition/#{@term.name}"}
-          rel={if !has_reactions?(@term) && (length(@term.reactions) < 5) , do: "nofollow", else: nil}
+          rel={if !has_reactions?(@term) && length(@term.reactions) < 5, do: "nofollow", else: nil}
         >
           <h2 class="mb-1 text-2xl font-bold text-blue-700 hover:underline">{@term.name}</h2>
         </.link>
-        
+
     <!-- 3. description / translation -->
         <p
           class="text-base"
-          phx-hook=".EnqueueFindContainedTermsForAll"
           id={"description-#{@term.id}"}
           data-term-id={@term.id}
           data-component-id={@myself}
         >
-          <%= render_segments(@description_segments) %>
+          {render_segments(@description_segments)}
         </p>
-        <!-- Colocated hook, on-demand loading of contained terms -->
-        <%= if is_nil(@term.contained_terms_cache) do %>
-          <script :type={Phoenix.LiveView.ColocatedHook} name=".EnqueueFindContainedTermsForAll">
-            export default {
-              mounted() {
-                console.log("EnqueueFindContainedTermsForAll mounted")
-                const componentId = this.el.dataset.componentId
-                this.pushEventTo(componentId, "enqueue_find_contained_terms", { id: this.el.dataset.termId })
-              }
-            }
-          </script>
-        <% end %>
         <!--
 
           <button type="button" phx-click="enqueue_find_contained_terms" phx-target={@myself} class="underline hover:opacity-75 transition-opacity ml-1 italic cursor-pointer">Find contained terms</button>
@@ -120,7 +108,7 @@ defmodule WortwildnisWeb.ViewTerm do
             {@term.example}
           </p>
         <% end %>
-        
+
     <!-- 2. actions and 4. time ago -->
         <div class="flex flex-row flex-wrap gap-2 items-center text-sm opacity-70">
           <%= if @term.scraped_from_mundmische do %>
@@ -152,7 +140,7 @@ defmodule WortwildnisWeb.ViewTerm do
             </.link>
           <% end %>
         </div>
-        
+
     <!-- 5. reactions -->
         <div class="flex flex-row flex-wrap gap-2 items-center">
           <%= for reaction_type <- [:up, :down, :laugh, :sad, :angry, :surprised, :confused, :thinking] do %>

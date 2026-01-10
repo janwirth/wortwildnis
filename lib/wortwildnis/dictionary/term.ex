@@ -63,7 +63,7 @@ defmodule Wortwildnis.Dictionary.Term do
     create :create_term_with_owner do
       accept [:name, :description, :example]
       change relate_actor(:owner)
-      change run_oban_trigger(:find_contained_terms_job)
+      change Wortwildnis.Dictionary.Term.Changes.EnqueueFindContainedTermsIfNeeded
     end
 
     update :update_owned_term do
@@ -71,7 +71,8 @@ defmodule Wortwildnis.Dictionary.Term do
       accept [:name, :description, :example]
       change set_attribute(:translation_en, nil)
       change set_attribute(:translation_es, nil)
-      change run_oban_trigger(:find_contained_terms_job)
+      require_atomic? false
+      change Wortwildnis.Dictionary.Term.Changes.EnqueueFindContainedTermsIfNeeded
     end
 
     update :enqueue_find_contained_terms do

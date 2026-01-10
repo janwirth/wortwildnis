@@ -41,6 +41,7 @@ defmodule Wortwildnis.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:tidewave, "~> 0.5", only: [:dev]},
       {:oban, "~> 2.0"},
       {:oban_web, "~> 2.0"},
       {:ash_ai, "~> 0.4"},

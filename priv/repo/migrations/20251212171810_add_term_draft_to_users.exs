@@ -13,5 +13,3 @@ defmodule Wortwildnis.Repo.Migrations.AddTermDraftToUsers do
     end
   end
 end
-
-

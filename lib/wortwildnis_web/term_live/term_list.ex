@@ -1,8 +1,9 @@
 defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
   use WortwildnisWeb, :live_component
 
+  alias WortwildnisWeb.LiveView.TermHelpers
+
   @impl true
-  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div
@@ -74,7 +75,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:read)
       |> Ash.Query.sort(created_at: :desc)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -97,7 +98,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:recently_reacted)
       |> Ash.Query.sort(created_at: :desc)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -118,7 +119,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
     {new_terms, total_count} =
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:by_letter, letter: letter)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -139,7 +140,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
     {new_terms, total_count} =
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:search, q: query)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -159,7 +160,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
     {new_terms, total_count} =
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:user_submitted_terms, user_id: params.current_user.id)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -179,7 +180,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
     {new_terms, total_count} =
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:user_reacted_terms, user_id: params.current_user.id)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -200,7 +201,7 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
     {new_terms, total_count} =
       Wortwildnis.Dictionary.Term
       |> Ash.Query.for_read(:term_of_the_day, date: today)
-      |> WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers.read_terms_with_count(
+      |> TermHelpers.read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
         params.current_user,
         page
       )
@@ -225,7 +226,8 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       Enum.reduce(socket.assigns.terms, {[], false}, fn t, {acc, found} ->
         cond do
           t.id == term.id && !found -> {acc ++ [term], true}
-          t.id == term.id && found -> {acc, true}  # Skip duplicates
+          # Skip duplicates
+          t.id == term.id && found -> {acc, true}
           true -> {acc ++ [t], found}
         end
       end)
@@ -254,7 +256,10 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       else
         # Filter out any terms that already exist in the list to avoid duplicates
         existing_ids = MapSet.new(existing_terms, & &1.id)
-        new_unique_terms = Enum.reject(new_terms, fn term -> MapSet.member?(existing_ids, term.id) end)
+
+        new_unique_terms =
+          Enum.reject(new_terms, fn term -> MapSet.member?(existing_ids, term.id) end)
+
         existing_terms ++ new_unique_terms
       end
 
@@ -297,53 +302,5 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       _ ->
         base_params
     end
-  end
-end
-
-defmodule WortwildnisWeb.TermLive.IndexRefactor.LoadHelpers do
-  def default_term_loads do
-    # Don't load contained_terms here - it's expensive and causes massive LATERAL joins
-    # Load it lazily in the component when needed
-    [:reactions, :owner, :is_owner]
-  end
-
-  @spec read_terms(atom() | Ash.Query.t(), any()) ::
-          [struct()]
-          | %{
-              :__struct__ => Ash.Page.Keyset | Ash.Page.Offset,
-              :count => integer(),
-              :limit => integer(),
-              :more? => boolean(),
-              :rerun => {Ash.Query.t(), [{any(), any()}]},
-              :results => [struct()],
-              optional(:after) => nil | binary(),
-              optional(:before) => nil | binary(),
-              optional(:offset) => integer()
-            }
-  def read_terms(query, current_user) do
-    query
-    |> Ash.Query.limit(10)
-    |> Ash.Query.load(default_term_loads())
-    |> Ash.read!(actor: current_user)
-  end
-
-  def read_terms_with_count(query, current_user, page \\ 1) do
-    # Use Ash's count functionality instead of loading all terms
-    # This is much more efficient - it uses a COUNT(*) query
-    offset = (page - 1) * 10
-
-    terms =
-      query
-      |> Ash.Query.limit(10)
-      |> Ash.Query.offset(offset)
-      |> Ash.Query.load(default_term_loads())
-      |> Ash.read!(actor: current_user)
-
-    # Get total count efficiently - just count, don't load
-    total_count =
-      query
-      |> Ash.count!(actor: current_user)
-
-    {terms, total_count}
   end
 end

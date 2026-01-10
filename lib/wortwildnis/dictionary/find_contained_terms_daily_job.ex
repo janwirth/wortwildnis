@@ -24,5 +24,3 @@ defmodule Wortwildnis.Dictionary.FindContainedTermsDailyJob do
     :ok
   end
 end
-
-

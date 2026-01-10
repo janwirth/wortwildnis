@@ -33,7 +33,7 @@ defmodule WortwildnisWeb.SitemapController do
         %{
           loc: "#{base_url}/definition/#{URI.encode(slug)}",
           lastmod: format_date(term.updated_at),
-          changefreq: "weekly",
+          changefreq: "weekly"
           # priority: "0.9"
         }
       end)

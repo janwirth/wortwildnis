@@ -8,7 +8,7 @@
     <link rel="icon" type="image/webp" href={~p"/images/logo_w.webp"} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href={~p"/sitemap.xml"} />
     <%= if html = System.get_env("HEAD_INJECTED_HTML") do %>
-      <%= raw(html) %>
+      {raw(html)}
     <% end %>
 
     <SEO.juice

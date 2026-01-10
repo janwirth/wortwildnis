@@ -259,6 +259,7 @@ defmodule Wortwildnis.Accounts.User do
       authorize_if expr(id == ^actor(:id))
       authorize_if always()
     end
+
     policy action :destroy do
       authorize_if expr(^actor(:role) == :admin)
     end

@@ -107,7 +107,11 @@ defmodule WortwildnisWeb.Layouts do
           <p class="mt-2">
             Automatische Übersetzung durch DeepL.
           </p>
-          <a href={"https://janwirth.notion.site/Wortwildnis-Impressum-Datenschutz-2d75cbd3c0c6806fbdebfca8d7f10894"} target="_blank" class="text-sm underline cursor-pointer hover:opacity-75 transition-opacity mt-4">
+          <a
+            href="https://janwirth.notion.site/Wortwildnis-Impressum-Datenschutz-2d75cbd3c0c6806fbdebfca8d7f10894"
+            target="_blank"
+            class="text-sm underline cursor-pointer hover:opacity-75 transition-opacity mt-4"
+          >
             Impressum & Datenschutz
           </a>
         </div>
