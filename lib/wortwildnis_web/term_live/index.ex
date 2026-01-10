@@ -175,14 +175,7 @@ defmodule WortwildnisWeb.TermLive.Index do
 
   @impl true
   def handle_params(params, _uri, socket) do
-    # Ensure subscription is active (in case of process reuse)
-    if connected?(socket) do
-      Phoenix.PubSub.subscribe(Wortwildnis.PubSub, "terms:translated")
-      Phoenix.PubSub.subscribe(Wortwildnis.PubSub, "terms:destroyed")
-      Phoenix.PubSub.subscribe(Wortwildnis.PubSub, "terms:contained_terms_found")
-      Phoenix.PubSub.subscribe(Wortwildnis.PubSub, "reactions:changed")
-    end
-
+    # Subscriptions are already set up in mount/3, no need to re-subscribe
     mode = determine_mode(params, socket)
     socket = assign_mode(socket, mode)
 
