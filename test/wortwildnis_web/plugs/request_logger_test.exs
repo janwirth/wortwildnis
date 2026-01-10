@@ -19,7 +19,7 @@ defmodule WortwildnisWeb.Plugs.RequestLoggerTest do
   end
 
   test "logs request information with user agent", %{conn: conn} do
-    conn = 
+    conn =
       conn
       |> put_req_header("user-agent", "Mozilla/5.0 Test Browser")
 

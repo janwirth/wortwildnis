@@ -52,7 +52,7 @@ defmodule WortwildnisWeb.SitemapControllerTest do
         # Decoded slug should be at least 5 characters (quality filter)
         decoded_slug = URI.decode(slug)
         assert String.length(decoded_slug) >= 5,
-          "Term slug '#{decoded_slug}' is less than 5 characters"
+               "Term slug '#{decoded_slug}' is less than 5 characters"
       end)
     end
   end

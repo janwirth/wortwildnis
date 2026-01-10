@@ -84,7 +84,7 @@ defmodule WortwildnisWeb.ViewTerm do
         >
           <h2 class="mb-1 text-2xl font-bold text-blue-700 hover:underline">{@term.name}</h2>
         </.link>
-
+        
     <!-- 3. description / translation -->
         <p
           class="text-base"
@@ -120,7 +120,7 @@ defmodule WortwildnisWeb.ViewTerm do
             {@term.example}
           </p>
         <% end %>
-
+        
     <!-- 2. actions and 4. time ago -->
         <div class="flex flex-row flex-wrap gap-2 items-center text-sm opacity-70">
           <%= if @term.scraped_from_mundmische do %>
@@ -152,7 +152,7 @@ defmodule WortwildnisWeb.ViewTerm do
             </.link>
           <% end %>
         </div>
-
+        
     <!-- 5. reactions -->
         <div class="flex flex-row flex-wrap gap-2 items-center">
           <%= for reaction_type <- [:up, :down, :laugh, :sad, :angry, :surprised, :confused, :thinking] do %>

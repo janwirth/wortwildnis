@@ -32,8 +32,8 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
       <%= if assigns[:mode] == :term_of_the_day and length(@terms) > 0  do %>
         <div class="h-12"></div>
       <% end %>
-        <div class="flex items-center justify-center pt-4 gap-2">
-      <%= if assigns[:total_count] && length(@terms) < assigns[:total_count] do %>
+      <div class="flex items-center justify-center pt-4 gap-2">
+        <%= if assigns[:total_count] && length(@terms) < assigns[:total_count] do %>
           <button
             phx-click="load_more"
             phx-target={@myself}
@@ -41,14 +41,14 @@ defmodule WortwildnisWeb.TermLive.IndexRefactor.List do
           >
             Mehr laden
           </button>
-      <% end %>
-          <button
-            phx-click="random_term"
-            class="border border-black dark:border-white rounded-full px-4 py-2 cursor-pointer font-bold hover:opacity-75 transition-opacity box-border"
-          >
-            Zufälliger Begriff
-          </button>
-        </div>
+        <% end %>
+        <button
+          phx-click="random_term"
+          class="border border-black dark:border-white rounded-full px-4 py-2 cursor-pointer font-bold hover:opacity-75 transition-opacity box-border"
+        >
+          Zufälliger Begriff
+        </button>
+      </div>
     </div>
     """
   end
