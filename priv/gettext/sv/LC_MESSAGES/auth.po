@@ -47,6 +47,9 @@ msgstr "Begär magisk länk"
 msgid "Request password reset token"
 msgstr "Begär token för lösenordsåterställning"
 
+msgid "Request reset password link"
+msgstr "Begär länk för lösenordsåterställning"
+
 msgid "Requesting ..."
 msgstr "Begär..."
 

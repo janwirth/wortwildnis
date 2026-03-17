@@ -47,6 +47,9 @@ msgstr "Magischen Link anfordern"
 msgid "Request password reset token"
 msgstr "Token zur Passwortzurücksetzung anfordern"
 
+msgid "Request reset password link"
+msgstr "Link zur Passwortzurücksetzung anfordern"
+
 msgid "Requesting ..."
 msgstr "Wird angefordert..."
 

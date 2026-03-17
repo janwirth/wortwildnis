@@ -44,6 +44,9 @@ msgstr ""
 msgid "Request password reset token"
 msgstr ""
 
+msgid "Request reset password link"
+msgstr "Request reset password link"
+
 msgid "Requesting ..."
 msgstr ""
 
