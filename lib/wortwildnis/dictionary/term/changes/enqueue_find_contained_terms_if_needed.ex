@@ -29,7 +29,11 @@ defmodule Wortwildnis.Dictionary.Term.Changes.EnqueueFindContainedTermsIfNeeded 
         description_changed = Ash.Changeset.changing_attribute?(changeset, :description)
 
         will_enqueue = cache_is_empty || description_changed
-        IO.puts("EnqueueFindContainedTermsIfNeeded: UPDATE action - cache_empty: #{cache_is_empty}, desc_changed: #{description_changed}, will_enqueue: #{will_enqueue}")
+
+        IO.puts(
+          "EnqueueFindContainedTermsIfNeeded: UPDATE action - cache_empty: #{cache_is_empty}, desc_changed: #{description_changed}, will_enqueue: #{will_enqueue}"
+        )
+
         will_enqueue
       end
 
@@ -45,7 +49,9 @@ defmodule Wortwildnis.Dictionary.Term.Changes.EnqueueFindContainedTermsIfNeeded 
         |> Wortwildnis.Dictionary.Term.AshOban.Worker.FindContainedTermsJob.new()
         |> Oban.insert()
       else
-        IO.puts("EnqueueFindContainedTermsIfNeeded: Skipping job for term #{result.id} (cache already populated)")
+        IO.puts(
+          "EnqueueFindContainedTermsIfNeeded: Skipping job for term #{result.id} (cache already populated)"
+        )
       end
 
       {:ok, result}

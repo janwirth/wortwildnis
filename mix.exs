@@ -93,7 +93,8 @@ defmodule Wortwildnis.MixProject do
       {:gel, "~> 0.9"},
       {:deepl_ex, "~> 0.4.0"},
       {:essence, "~> 0.3.0"},
-      {:html_entities, "~> 0.5"}
+      {:html_entities, "~> 0.5"},
+      {:hcaptcha, "~> 0.0"}
     ]
   end
 

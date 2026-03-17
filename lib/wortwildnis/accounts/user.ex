@@ -142,6 +142,11 @@ defmodule Wortwildnis.Accounts.User do
         allow_nil? false
       end
 
+      argument :h_captcha_response, :string do
+        allow_nil? true
+        sensitive? true
+      end
+
       argument :password, :string do
         description "The proposed password for the user, in plain text."
         allow_nil? false
@@ -179,6 +184,8 @@ defmodule Wortwildnis.Accounts.User do
       # validates that the password matches the confirmation
       validate AshAuthentication.Strategy.Password.PasswordConfirmationValidation
 
+      validate Wortwildnis.Accounts.Validations.Hcaptcha
+
       metadata :token, :string do
         description "A JWT that can be used to authenticate the user."
         allow_nil? false
@@ -207,6 +214,13 @@ defmodule Wortwildnis.Accounts.User do
       argument :email, :ci_string do
         allow_nil? false
       end
+
+      argument :h_captcha_response, :string do
+        allow_nil? true
+        sensitive? true
+      end
+
+      validate Wortwildnis.Accounts.Validations.Hcaptcha
 
       # creates a reset token and invokes the relevant senders
       run {AshAuthentication.Strategy.Password.RequestPasswordReset, action: :get_by_email}

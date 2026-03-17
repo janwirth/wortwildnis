@@ -86,6 +86,7 @@ defmodule WortwildnisWeb do
       import Phoenix.HTML
       # Core UI components
       import WortwildnisWeb.CoreComponents
+      import WortwildnisWeb.HcaptchaComponent
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

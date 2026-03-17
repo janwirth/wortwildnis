@@ -166,7 +166,11 @@ defmodule WortwildnisWeb.LiveView.TermHelpers do
   Reads terms with pagination and returns the total count.
   Uses efficient COUNT(*) query for counting.
   """
-  def read_terms_with_count_and_enqueue_find_contained_terms_if_needed(query, current_user, page \\ 1) do
+  def read_terms_with_count_and_enqueue_find_contained_terms_if_needed(
+        query,
+        current_user,
+        page \\ 1
+      ) do
     offset = (page - 1) * 10
 
     terms =
@@ -188,7 +192,6 @@ defmodule WortwildnisWeb.LiveView.TermHelpers do
         Ash.update!(term, action: :enqueue_find_contained_terms)
       end
     end)
-
 
     {terms, total_count}
   end

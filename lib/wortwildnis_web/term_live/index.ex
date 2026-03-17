@@ -178,7 +178,6 @@ defmodule WortwildnisWeb.TermLive.Index do
   end
 
   defp determine_mode(params, socket) do
-
     cond do
       socket.assigns.live_action == :profile ->
         {:profile, socket.assigns.current_user}
