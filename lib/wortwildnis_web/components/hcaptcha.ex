@@ -27,7 +27,7 @@ defmodule WortwildnisWeb.HcaptchaComponent do
     input_name = Phoenix.HTML.Form.input_name(assigns.form, :h_captcha_response)
     callback = "hcaptchaCallback#{String.replace(assigns.input_id, "-", "_")}"
     expired_callback = "hcaptchaExpiredCallback#{String.replace(assigns.input_id, "-", "_")}"
-    public_key = Application.get_env(:hcaptcha, :public_key)
+    public_key = resolve_public_key(Application.get_env(:hcaptcha, :public_key))
 
     assigns =
       assigns
@@ -111,4 +111,11 @@ defmodule WortwildnisWeb.HcaptchaComponent do
     </script>
     """
   end
+
+  defp resolve_public_key({:system, env_var}) when is_binary(env_var) do
+    System.get_env(env_var) || ""
+  end
+
+  defp resolve_public_key(key) when is_binary(key), do: key
+  defp resolve_public_key(_), do: ""
 end
