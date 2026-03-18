@@ -4,8 +4,6 @@ defmodule WortwildnisWeb.HcaptchaComponent do
   """
   use Phoenix.Component
 
-  import Phoenix.HTML
-
   def register_extra(assigns) do
     assigns = assign(assigns, :input_id, "register")
 
@@ -55,13 +53,15 @@ defmodule WortwildnisWeb.HcaptchaComponent do
         value=""
       />
       <div phx-no-copy class="[&_.h-captcha]:min-h-[78px]">
-        <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+        <script src="https://js.hcaptcha.com/1/api.js" async defer>
+        </script>
         <div
           class="h-captcha"
           data-sitekey={@public_key}
           data-callback={@callback}
           data-expired-callback={@expired_callback}
-        ></div>
+        >
+        </div>
       </div>
     </div>
     <script :type={Phoenix.LiveView.ColocatedHook} name=".Hcaptcha">

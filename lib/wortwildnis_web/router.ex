@@ -64,7 +64,7 @@ defmodule WortwildnisWeb.Router do
                   reset_path: "/reset",
                   auth_routes_prefix: "/auth",
                   on_mount: [{WortwildnisWeb.LiveUserAuth, :live_no_user}],
-                  gettext_backend: {WortwildnisWeb.Gettext, "auth"},
+                  gettext_fn: {WortwildnisWeb.AuthGettext, :translate},
                   overrides: [
                     WortwildnisWeb.AuthOverrides,
                     Elixir.AshAuthentication.Phoenix.Overrides.DaisyUI,
@@ -73,7 +73,7 @@ defmodule WortwildnisWeb.Router do
 
     # Remove this if you do not want to use the reset password feature
     reset_route auth_routes_prefix: "/auth",
-                gettext_backend: {WortwildnisWeb.Gettext, "auth"},
+                gettext_fn: {WortwildnisWeb.AuthGettext, :translate},
                 overrides: [
                   WortwildnisWeb.AuthOverrides,
                   Elixir.AshAuthentication.Phoenix.Overrides.DaisyUI
@@ -82,7 +82,7 @@ defmodule WortwildnisWeb.Router do
     # Remove this if you do not use the confirmation strategy
     confirm_route Wortwildnis.Accounts.User, :confirm_new_user,
       auth_routes_prefix: "/auth",
-      gettext_backend: {WortwildnisWeb.Gettext, "auth"},
+      gettext_fn: {WortwildnisWeb.AuthGettext, :translate},
       overrides: [
         WortwildnisWeb.AuthOverrides,
         Elixir.AshAuthentication.Phoenix.Overrides.DaisyUI
@@ -91,7 +91,7 @@ defmodule WortwildnisWeb.Router do
     # Remove this if you do not use the magic link strategy.
     magic_sign_in_route(Wortwildnis.Accounts.User, :magic_link,
       auth_routes_prefix: "/auth",
-      gettext_backend: {WortwildnisWeb.Gettext, "auth"},
+      gettext_fn: {WortwildnisWeb.AuthGettext, :translate},
       overrides: [
         WortwildnisWeb.AuthOverrides,
         Elixir.AshAuthentication.Phoenix.Overrides.DaisyUI

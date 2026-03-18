@@ -11,6 +11,7 @@ if config_env() != :prod do
 
   config :langchain, :openai_key, env!("OPENAI_API_KEY", :string!)
   config :deepl_ex, :api_key, env!("DEEPL_API_KEY", :string!)
+
   config :hcaptcha,
     public_key: env!("HCAPTCHA_SITE_KEY", :string!),
     secret: env!("HCAPTCHA_SECRET_KEY", :string!)

@@ -11,8 +11,11 @@ defmodule Wortwildnis.Accounts.Validations.Hcaptcha do
   def validate(changeset_or_input, _opts, _context) do
     response =
       case changeset_or_input do
-        %Ash.Changeset{} -> Ash.Changeset.get_argument(changeset_or_input, :h_captcha_response)
-        %Ash.ActionInput{} -> Ash.ActionInput.get_argument(changeset_or_input, :h_captcha_response)
+        %Ash.Changeset{} ->
+          Ash.Changeset.get_argument(changeset_or_input, :h_captcha_response)
+
+        %Ash.ActionInput{} ->
+          Ash.ActionInput.get_argument(changeset_or_input, :h_captcha_response)
       end
 
     case Hcaptcha.verify(response || "") do
