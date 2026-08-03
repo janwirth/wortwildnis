@@ -19,6 +19,10 @@ defmodule Wortwildnis.Dictionary.Term do
     custom_indexes do
       index "lower(name)", name: "terms_lower_name_index"
       index [:owner_id]
+
+      # Term.search filters/sorts by `similarity(name, q)` (pg_trgm).
+      # Without this, that's a sequential scan over every term row.
+      index "name gin_trgm_ops", using: "gin", name: "terms_name_trgm_index"
     end
   end
 

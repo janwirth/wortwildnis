@@ -131,12 +131,13 @@ defmodule WortwildnisWeb.LiveView.TermHelpers do
 
   @doc """
   Gets a term with standard loads.
+
+  Delegates to `Wortwildnis.Dictionary.TermReadCache`, which collapses the
+  DB reads that fan out when a single reaction/translation broadcast is
+  handled by every connected LiveView at once.
   """
   def get_term_with_loads(id, actor) do
-    Ash.get!(Wortwildnis.Dictionary.Term, id,
-      actor: actor,
-      load: standard_term_loads()
-    )
+    Wortwildnis.Dictionary.TermReadCache.get_term_with_loads(id, actor)
   end
 
   @doc """

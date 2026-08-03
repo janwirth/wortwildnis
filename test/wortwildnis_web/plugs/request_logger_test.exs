@@ -44,8 +44,11 @@ defmodule WortwildnisWeb.Plugs.RequestLoggerTest do
     assert log =~ "User-Agent: Unknown"
   end
 
-  test "handles x-forwarded-for header", %{conn: conn} do
-    conn = put_req_header(conn, "x-forwarded-for", "1.2.3.4, 5.6.7.8")
+  test "logs conn.remote_ip as resolved upstream by the RemoteIp plug", %{conn: conn} do
+    # RemoteIp (wired in the endpoint ahead of this plug) is what's
+    # responsible for trusting X-Forwarded-For; RequestLogger just logs
+    # whatever conn.remote_ip already resolved to.
+    conn = %{conn | remote_ip: {1, 2, 3, 4}}
 
     log =
       capture_log(fn ->
@@ -53,5 +56,47 @@ defmodule WortwildnisWeb.Plugs.RequestLoggerTest do
       end)
 
     assert log =~ "IP Address: 1.2.3.4"
+  end
+
+  test "does not itself trust a raw x-forwarded-for header", %{conn: conn} do
+    # Without RemoteIp in front of it, RequestLogger must not fall back to
+    # parsing the (client-spoofable) header itself.
+    conn =
+      conn
+      |> put_req_header("x-forwarded-for", "9.9.9.9")
+      |> Map.put(:remote_ip, {127, 0, 0, 1})
+
+    log =
+      capture_log(fn ->
+        RequestLogger.call(conn, [])
+      end)
+
+    refute log =~ "9.9.9.9"
+    assert log =~ "IP Address: 127.0.0.1"
+  end
+
+  test "redacts token query params", %{conn: conn} do
+    conn = %{conn | query_string: "token=super-secret-value&q=hello"}
+
+    log =
+      capture_log(fn ->
+        RequestLogger.call(conn, [])
+      end)
+
+    refute log =~ "super-secret-value"
+    assert log =~ "token=[REDACTED]"
+    assert log =~ "q=hello"
+  end
+
+  test "redacts token path segments for known auth routes", %{conn: conn} do
+    conn = %{conn | request_path: "/password-reset/super-secret-token"}
+
+    log =
+      capture_log(fn ->
+        RequestLogger.call(conn, [])
+      end)
+
+    refute log =~ "super-secret-token"
+    assert log =~ "Path: /password-reset/[REDACTED]"
   end
 end

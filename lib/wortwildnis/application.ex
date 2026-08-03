@@ -17,6 +17,7 @@ defmodule Wortwildnis.Application do
          Application.fetch_env!(:wortwildnis, Oban)
        )},
       {Phoenix.PubSub, name: Wortwildnis.PubSub},
+      Wortwildnis.Dictionary.TermReadCache,
       # Start a worker by calling: Wortwildnis.Worker.start_link(arg)
       # {Wortwildnis.Worker, arg},
       # Start to serve requests, typically the last entry

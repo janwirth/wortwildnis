@@ -408,6 +408,13 @@ defmodule WortwildnisWeb.ViewTerm do
     {:noreply, push_navigate(socket, to: ~p"/sign-in")}
   end
 
+  @reaction_types ~w[up down laugh sad angry surprised confused thinking]
+
+  def handle_event("react", %{"reaction_type" => reaction_type_str}, socket)
+      when reaction_type_str not in @reaction_types do
+    {:noreply, socket}
+  end
+
   def handle_event("react", %{"reaction_type" => reaction_type_str}, socket) do
     unless socket.assigns.current_user do
       send(self(), {:put_flash, :error, "You must be logged in to react"})

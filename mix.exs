@@ -80,6 +80,7 @@ defmodule Wortwildnis.MixProject do
        compile: false,
        depth: 1},
       {:slugify, "~> 1.3.1"},
+      {:remote_ip, "~> 1.2"},
       {:swoosh, "~> 1.16"},
       {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},

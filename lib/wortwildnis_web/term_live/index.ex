@@ -163,18 +163,24 @@ defmodule WortwildnisWeb.TermLive.Index do
     end
 
     mode = determine_mode(params, socket)
-    socket = assign_mode(socket, mode)
 
-    {:ok, socket}
+    if match?({:profile, nil}, mode) do
+      {:ok, push_navigate(socket, to: ~p"/sign-in")}
+    else
+      {:ok, assign_mode(socket, mode)}
+    end
   end
 
   @impl true
   def handle_params(params, _uri, socket) do
     # Subscriptions are already set up in mount/3, no need to re-subscribe
     mode = determine_mode(params, socket)
-    socket = assign_mode(socket, mode)
 
-    {:noreply, socket}
+    if match?({:profile, nil}, mode) do
+      {:noreply, push_navigate(socket, to: ~p"/sign-in")}
+    else
+      {:noreply, assign_mode(socket, mode)}
+    end
   end
 
   defp determine_mode(params, socket) do

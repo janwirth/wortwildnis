@@ -25,7 +25,29 @@ defmodule WortwildnisWeb.Endpoint do
     from: :wortwildnis,
     gzip: not code_reloading?,
     only: WortwildnisWeb.static_paths(),
-    raise_on_missing_only: code_reloading?
+    raise_on_missing_only: code_reloading?,
+    headers: {__MODULE__, :static_cache_headers, []}
+
+  @doc """
+  Long browser/CDN cache lifetimes for static assets. `/assets` files are
+  content-hashed by esbuild/tailwind digesting, so they're safe to cache
+  forever; `/images` and `fonts` aren't hashed but change rarely.
+  """
+  def static_cache_headers(%Plug.Conn{request_path: path}) do
+    cond do
+      Application.get_env(:wortwildnis, :dev_routes) ->
+        []
+
+      String.starts_with?(path, "/assets/") ->
+        [{"cache-control", "public, max-age=31536000, immutable"}]
+
+      String.starts_with?(path, "/images/") or String.starts_with?(path, "/fonts/") ->
+        [{"cache-control", "public, max-age=2592000"}]
+
+      true ->
+        []
+    end
+  end
 
   if Code.ensure_loaded?(Tidewave) do
     plug Tidewave
@@ -52,6 +74,7 @@ defmodule WortwildnisWeb.Endpoint do
     cookie_key: "request_logger"
 
   plug Plug.RequestId
+  plug RemoteIp
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
   plug WortwildnisWeb.Plugs.RequestLogger
 

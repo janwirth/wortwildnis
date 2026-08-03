@@ -1,6 +1,8 @@
 defmodule WortwildnisWeb.TermLive.Form do
   use WortwildnisWeb, :live_view
 
+  on_mount {WortwildnisWeb.LiveUserAuth, :live_user_required}
+
   @impl true
   def render(assigns) do
     ~H"""
