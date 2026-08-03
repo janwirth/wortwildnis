@@ -15,26 +15,31 @@ defmodule Wortwildnis.Repo.Migrations.CatchUpMissingMigrations do
     already-applied by version, not content, so any DB where it already
     ran as a no-op would never pick up an edit to its body.
 
+  Every statement here is written `IF NOT EXISTS` / `IF EXISTS`: prod turned
+  out to already have `terms.example` (added out-of-band at some point, not
+  through any committed migration), so a plain `add`/`create index` raised
+  `duplicate_column`/`already_exists` and crashed the release's migration
+  step. Since we can't know which of these four items are already present
+  in any given environment, every one of them has to tolerate already being
+  there.
+
   `mix ash_postgres.generate_migrations` reports "no changes detected" for
   all of these because it only diffs resources against the snapshot, not
   against the actual database, so it can't catch this on its own.
-
-  Symptom confirmed by `mix test`: any read of Term that selects `example`
-  (e.g. the sitemap's `recently_reacted` query) fails with
-  `(Postgrex.Error) ERROR 42703 (undefined_column) column t0.example does
-  not exist`, then (once that's fixed) the same for `translation_es`. If
-  this migration hasn't already been applied by some out-of-band means, run
-  it before deploying.
   """
   use Ecto.Migration
 
-  def change do
-    alter table(:terms) do
-      add :example, :text
-      add :translation_es, :text
-    end
+  def up do
+    execute "ALTER TABLE terms ADD COLUMN IF NOT EXISTS example text"
+    execute "ALTER TABLE terms ADD COLUMN IF NOT EXISTS translation_es text"
+    execute "CREATE INDEX IF NOT EXISTS terms_owner_id_index ON terms (owner_id)"
+    execute "CREATE INDEX IF NOT EXISTS reactions_term_id_index ON reactions (term_id)"
+  end
 
-    create index(:terms, [:owner_id])
-    create index(:reactions, [:term_id])
+  def down do
+    execute "DROP INDEX IF EXISTS reactions_term_id_index"
+    execute "DROP INDEX IF EXISTS terms_owner_id_index"
+    execute "ALTER TABLE terms DROP COLUMN IF EXISTS translation_es"
+    execute "ALTER TABLE terms DROP COLUMN IF EXISTS example"
   end
 end
